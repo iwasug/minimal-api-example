@@ -1,42 +1,45 @@
-namespace Microsoft.Extensions.DependencyInjection;
-
-using Microsoft.OpenApi.Models;
-
-public static partial class ServiceCollectionExtensions
+namespace Microsoft.Extensions.DependencyInjection
 {
-    public static WebApplicationBuilder AddSwagger(this WebApplicationBuilder builder)
-    {
-        builder.Services.AddSwagger();
+    using System;
+    using System.Collections.Generic;
+    using Microsoft.AspNetCore.Builder;
+    using Microsoft.OpenApi.Models;
 
-        return builder;
-    }
-
-    public static IServiceCollection AddSwagger(this IServiceCollection services)
+    public static partial class ServiceCollectionExtensions
     {
-        services.AddEndpointsApiExplorer();
-        services.AddSwaggerGen(c =>
+        public static WebApplicationBuilder AddSwagger(this WebApplicationBuilder builder)
         {
-            c.SwaggerDoc("v1", new OpenApiInfo()
+            builder.Services.AddSwagger();
+
+            return builder;
+        }
+
+        public static IServiceCollection AddSwagger(this IServiceCollection services)
+        {
+            services.AddEndpointsApiExplorer();
+            services.AddSwaggerGen(c =>
             {
-                Description = "Minimal API Demo",
-                Title = "Minimal API Demo",
-                Version = "v1",
-                Contact = new OpenApiContact()
+                c.SwaggerDoc("v1", new OpenApiInfo()
                 {
-                    Name = "Oleksii Nikiforov",
-                    Url = new Uri("https://github.com/nikiforovall")
-                }
-            });
-            c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-            {
-                Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
-                Name = "Authorization",
-                In = ParameterLocation.Header,
-                Type = SecuritySchemeType.ApiKey,
-                Scheme = "Bearer"
-            });
-            c.AddSecurityRequirement(new OpenApiSecurityRequirement()
-            {
+                    Description = "Minimal API Demo",
+                    Title = "Minimal API Demo",
+                    Version = "v1",
+                    Contact = new OpenApiContact()
+                    {
+                        Name = "Oleksii Nikiforov",
+                        Url = new Uri("https://github.com/nikiforovall")
+                    }
+                });
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+                    Name = "Authorization",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = "Bearer"
+                });
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement()
+                {
                 {
                     new OpenApiSecurityScheme
                     {
@@ -52,8 +55,9 @@ public static partial class ServiceCollectionExtensions
                     },
                     new List<string>()
             }});
-        });
+            });
 
-        return services;
+            return services;
+        }
     }
 }

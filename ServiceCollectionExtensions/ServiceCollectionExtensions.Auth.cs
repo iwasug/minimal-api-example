@@ -4,6 +4,8 @@ using Serilog;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Builder;
+using System;
 
 public static partial class ServiceCollectionExtensions
 {

@@ -1,23 +1,24 @@
-namespace Microsoft.Extensions.DependencyInjection;
-
-using Microsoft.OpenApi.Models;
-using Serilog;
-using Serilog.Events;
-using Serilog.Sinks.SpectreConsole;
-
-public static partial class ServiceCollectionExtensions
+namespace Microsoft.Extensions.DependencyInjection
 {
-    public static WebApplicationBuilder AddSerilog(this WebApplicationBuilder builder)
+    using Microsoft.AspNetCore.Builder;
+    using Serilog;
+    using Serilog.Events;
+    using Serilog.Sinks.SpectreConsole;
+
+    public static partial class ServiceCollectionExtensions
     {
-        Log.Logger = new LoggerConfiguration()
-            .MinimumLevel.Debug()
-            .WriteTo.SpectreConsole(
-                "{Timestamp:HH:mm:ss} [{Level:u4}] {Message:lj}{NewLine}{Exception}",
-                minLevel: LogEventLevel.Information)
-            .CreateLogger();
+        public static WebApplicationBuilder AddSerilog(this WebApplicationBuilder builder)
+        {
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Debug()
+                .WriteTo.SpectreConsole(
+                    "{Timestamp:HH:mm:ss} [{Level:u4}] {Message:lj}{NewLine}{Exception}",
+                    minLevel: LogEventLevel.Information)
+                .CreateLogger();
 
-        builder.Host.UseSerilog();
+            builder.Host.UseSerilog();
 
-        return builder;
+            return builder;
+        }
     }
 }
